@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Tomorrowland Thailand">
+  <meta name="theme-color" content="#f7f2e8">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  <title>2026 Tomorrowland Thailand</title>
+  <style>
+    :root {
+      --ink: #2f3332;
+      --muted: #727875;
+      --line: #e7ded2;
+      --card: #fffdf8;
+      --bg: #f7f2e8;
+      --primary: #2f6f73;
+      --accent: #c7653d;
+      --green: #5f8f5f;
+      --shadow: 0 10px 30px rgba(73, 54, 33, 0.1);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(199, 101, 61, 0.16), transparent 30%),
+        linear-gradient(180deg, #fffaf1 0%, var(--bg) 48%, #eef5ef 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      padding-bottom: calc(78px + env(safe-area-inset-bottom));
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: calc(14px + env(safe-area-inset-top)) 18px 12px;
+      background: rgba(255, 250, 241, 0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(231, 222, 210, 0.8);
+    }
+
+    .hero-main {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.38rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .main-mode {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      border: 1px solid rgba(231, 222, 210, 0.9);
+      display: grid;
+      place-items: center;
+      background: rgba(255, 253, 248, 0.84);
+      color: #8b7d6b;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .main-mode.active {
+      border-color: #b9d4c7;
+      background: #f7fbf8;
+      color: var(--primary);
+    }
+
+    .main-mode svg { width: 48px; height: 48px; }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .empty {
+      padding: 22px;
+      border: 1px dashed #d8cabb;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: rgba(255, 253, 248, 0.7);
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .action {
+      min-height: 46px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      background: var(--primary);
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .action.secondary { background: var(--accent); }
+    .action.muted {
+      color: var(--ink);
+      background: #e8e0d5;
+    }
+
+    .sort-button {
+      min-width: 46px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      color: #4d605c;
+      background: #fffdf8;
+    }
+
+    .ledger-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 14px;
+      border: 1px solid rgba(231, 222, 210, 0.9);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, 0.94);
+    }
+
+    .ledger-date {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+
+    .ledger-name {
+      margin-top: 3px;
+      font-weight: 850;
+      line-height: 1.35;
+    }
+
+    .ledger-note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .ledger-converted {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-left: 5px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #e5f1ef;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 850;
+    }
+
+    .pill.gino {
+      background: #e1efec;
+      color: #2f6f73;
+    }
+
+    .pill.danny {
+      background: #f8e3d5;
+      color: #a1542e;
+    }
+
+    .pill.currency {
+      background: #fff4df;
+      color: #8d6530;
+    }
+
+    .ledger-cost {
+      text-align: right;
+      font-weight: 950;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .icon-buttons {
+      display: flex;
+      justify-content: end;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 28, 27, 0.45);
+      padding: 18px;
+    }
+
+    .modal-backdrop.scoreboard-backdrop {
+      align-items: center;
+      background: rgba(20, 20, 20, 0.48);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-backdrop.active { display: flex; }
+
+    .modal {
+      width: min(100%, 430px);
+      max-height: calc(100dvh - 36px);
+      overflow: auto;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fffdf8;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
+    }
+
+    .modal h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+    }
+
+    .scoreboard-modal {
+      width: min(calc(100vw - 20px), 430px);
+      padding: 30px 28px 28px;
+      border-radius: 26px;
+      background: #fffdf8;
+      text-align: center;
+      box-shadow: 0 26px 70px rgba(73, 54, 33, 0.28);
+    }
+
+    .scoreboard-title {
+      margin: 0 0 22px;
+      color: #3a332b;
+      font-size: 1.52rem;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .scoreboard-grid {
+      display: grid;
+      grid-template-areas:
+        "gino-name spacer danny-name"
+        "gino-score vs danny-score";
+      grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+      align-items: end;
+      column-gap: 10px;
+      row-gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .score-name {
+      min-width: 0;
+      color: #928679;
+      font-size: 1.13rem;
+      font-weight: 900;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .score-name.gino { grid-area: gino-name; color: #2f6f73; }
+    .score-name.danny { grid-area: danny-name; color: #a1542e; }
+
+    .score-value {
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      display: block;
+      font-size: var(--score-size, clamp(2.4rem, 11vw, 3.28rem));
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: 0;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+    }
+
+    .score-value.gino { grid-area: gino-score; color: #2f6f73; }
+    .score-value.danny { grid-area: danny-score; color: #c7653d; }
+
+    .score-vs {
+      grid-area: vs;
+      align-self: center;
+      color: #e1d9ce;
+      font-size: 1.42rem;
+      font-style: italic;
+      font-weight: 950;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .score-unit {
+      margin: 0 0 18px;
+      color: #9a8d7e;
+      font-size: 1.02rem;
+      font-weight: 780;
+    }
+
+    .score-close {
+      width: 100%;
+      min-height: 58px;
+      border: 0;
+      border-radius: 14px;
+      color: #fff;
+      background: #8b7d6b;
+      box-shadow: 0 10px 22px rgba(73, 54, 33, 0.18);
+      font-size: 1.24rem;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 10px 11px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .date-field {
+      text-align: left;
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 74px;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .modal-text {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .danger-text {
+      color: #9a4b3a;
+      font-weight: 800;
+    }
+
+    .calendar-head {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .calendar-title {
+      text-align: center;
+      font-weight: 950;
+      color: var(--ink);
+    }
+
+    .calendar-nav {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fffdf8;
+      color: var(--primary);
+      font-size: 1.2rem;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .calendar-weekdays {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .calendar-grid {
+      margin-top: 8px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fffdf8;
+      color: var(--ink);
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .calendar-day.muted {
+      opacity: 0.32;
+    }
+
+    .calendar-day.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    @media (max-width: 420px) {
+      main { padding: 14px; }
+      .hero-main { gap: 8px; }
+      .hero-actions { gap: 6px; }
+      .main-mode { width: 48px; height: 48px; border-radius: 14px; }
+      .main-mode svg { width: 43px; height: 43px; }
+      .toolbar { grid-template-columns: 1fr 1fr auto; }
+      .scoreboard-modal { padding: 28px 22px 24px; }
+      .scoreboard-grid {
+        grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr);
+        column-gap: 6px;
+        row-gap: 9px;
+      }
+      .score-name { font-size: 1.02rem; }
+      .score-vs { font-size: 1.38rem; }
+      .score-value { font-size: var(--score-size, clamp(2rem, 11vw, 3rem)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <h1>2026 Tomorrowland Thailand</h1>
+        
+      </div>
+      <div class="hero-actions">
+        <div class="main-mode active" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <g stroke-linecap="round" stroke-linejoin="round">
+              <path d="M30 31C24 19 17 12 7 12c0 13 5 23 19 24C14 35 11 43 16 51c8 0 12-7 16-15" fill="#e5efdf" stroke="#2f6f73" stroke-width="1.8"/>
+              <path d="M34 31c6-12 13-19 23-19 0 13-5 23-19 24 12-1 15 7 10 15-8 0-12-7-16-15" fill="#e5efdf" stroke="#2f6f73" stroke-width="1.8"/>
+              <path d="M12 18c7 1 12 6 15 13-7-1-11-5-12-9m37-4c-7 1-12 6-15 13 7-1 11-5 12-9" fill="none" stroke="#b59558" stroke-width="1.5"/>
+              <path d="M19 44c3-4 6-5 9-7m17 7c-3-4-6-5-9-7" fill="none" stroke="#b59558" stroke-width="1.5"/>
+              <path d="M32 24c-4-6-8-8-11-7m11 7c4-6 8-8 11-7" fill="none" stroke="#2f6f73" stroke-width="1.8"/>
+              <path d="M25 31q7-8 14 0-7 8-14 0Z" fill="#fffdf8" stroke="#2f6f73" stroke-width="1.5"/>
+              <circle cx="32" cy="31" r="2.5" fill="#b59558"/>
+              <path d="m32 36-3 8 3 8 3-8Z" fill="#2f6f73"/>
+              <path d="m32 8 2 4-2 4-2-4Z" fill="#b59558"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="toolbar">
+        <button class="action" id="add-ledger">新增消費</button>
+        <button class="action secondary" id="show-stats">統計</button>
+        <button class="action sort-button" type="button" id="toggle-ledger-sort" title="切換排序" aria-label="切換排序">日期↓</button>
+      </div>
+      <div id="ledger-list" class="empty">正在讀取記帳...</div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="form-modal">
+    <form class="modal" id="ledger-form">
+      <h2 id="form-title">新增消費</h2>
+      <input type="hidden" id="row-index">
+      <label for="date">日期</label>
+      <input class="date-field" id="date" type="text" inputmode="none" readonly required>
+      <label for="item">項目</label>
+      <input id="item" type="text" required placeholder="例如：船票、晚餐、飲料">
+      <label for="who">素隨</label>
+      <select id="who">
+        <option value="" disabled selected>選擇素隨</option>
+        <option>Danny</option>
+        <option>Gino</option>
+      </select>
+      <label for="currency">幣別</label>
+      <select id="currency" required>
+        <option value="" disabled selected>選擇幣別</option>
+        <option value="THB">泰銖 THB</option>
+        <option value="USD">美金 USD</option>
+        <option value="TWD">新台幣 TWD</option>
+      </select>
+      <label for="cost">金額</label>
+      <input id="cost" type="number" inputmode="decimal" min="0" step="0.01" required>
+      <label for="note">備註</label>
+      <textarea id="note" placeholder="可留空"></textarea>
+      <div class="modal-actions">
+        <button class="action muted" type="button" id="cancel-form">取消</button>
+        <button class="action" type="submit" id="save-form">儲存</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="date-modal">
+    <div class="modal">
+      <h2>選擇日期</h2>
+      <p class="modal-text">選一個記帳發生日期。</p>
+      <div class="calendar-head">
+        <button class="calendar-nav" type="button" id="prev-month" aria-label="上一個月">‹</button>
+        <div class="calendar-title" id="calendar-title"></div>
+        <button class="calendar-nav" type="button" id="next-month" aria-label="下一個月">›</button>
+      </div>
+      <div class="calendar-weekdays">
+        <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+      </div>
+      <div class="calendar-grid" id="calendar-grid"></div>
+      <div class="modal-actions">
+        <button class="action muted" type="button" id="cancel-date">取消</button>
+        <button class="action secondary" type="button" id="today-date">今天</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="delete-modal">
+    <div class="modal">
+      <h2>刪除消費</h2>
+      <p class="modal-text">確定要刪除這筆消費嗎？</p>
+      <p class="modal-text danger-text" id="delete-target"></p>
+      <div class="modal-actions">
+        <button class="action muted" type="button" id="cancel-delete">取消</button>
+        <button class="action secondary" type="button" id="confirm-delete">刪除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop scoreboard-backdrop" id="stats-modal">
+    <div class="modal scoreboard-modal">
+      <h2 class="scoreboard-title">消費大對決 🏆</h2>
+      <div class="scoreboard-grid">
+        <div class="score-name gino">Gino</div>
+        <div class="score-name danny">Danny</div>
+        <div class="score-value gino" id="score-gino">0</div>
+        <div class="score-vs">VS</div>
+        <div class="score-value danny" id="score-danny">0</div>
+      </div>
+      <div class="score-unit">(單位：新台幣)</div>
+      <div>
+        <button class="score-close" type="button" id="close-stats">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz9FA7NfG9Sj19odtO5B7eTZfNFZUzn4t6YEEzaea8CqeES5sxPExmVKFmIencpc7sHYQ/exec';
+    const RATES = { THB: 0.978, USD: 32.775, TWD: 1 };
+    const CURRENCY_LABELS = { THB: '泰銖', USD: '美金', TWD: '新台幣' };
+    const CURRENCY_PREFIX = { THB: '฿', USD: 'US$', TWD: 'NT$' };
+
+    const state = {
+      ledger: [],
+      ledgerSort: 'newest',
+      pendingDeleteRow: null,
+      calendarMonth: '',
+    };
+
+    const $ = selector => document.querySelector(selector);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      $('#add-ledger').addEventListener('click', () => openForm());
+      $('#show-stats').addEventListener('click', showStats);
+      $('#toggle-ledger-sort').addEventListener('click', toggleLedgerSort);
+      $('#cancel-form').addEventListener('click', closeForm);
+      $('#ledger-form').addEventListener('submit', submitLedger);
+      $('#date').addEventListener('click', openDatePicker);
+      $('#cancel-date').addEventListener('click', closeDatePicker);
+      $('#today-date').addEventListener('click', () => selectLedgerDate(today()));
+      $('#prev-month').addEventListener('click', () => shiftCalendarMonth(-1));
+      $('#next-month').addEventListener('click', () => shiftCalendarMonth(1));
+      $('#cancel-delete').addEventListener('click', closeDeleteConfirm);
+      $('#confirm-delete').addEventListener('click', confirmDeleteLedger);
+      $('#close-stats').addEventListener('click', () => $('#stats-modal').classList.remove('active'));
+      $('#date-modal').addEventListener('click', event => {
+        if (event.target.id === 'date-modal') closeDatePicker();
+      });
+      $('#delete-modal').addEventListener('click', event => {
+        if (event.target.id === 'delete-modal') closeDeleteConfirm();
+      });
+      $('#form-modal').addEventListener('click', event => {
+        if (event.target.id === 'form-modal') closeForm();
+      });
+      $('#stats-modal').addEventListener('click', event => {
+        if (event.target.id === 'stats-modal') $('#stats-modal').classList.remove('active');
+      });
+      loadLedger();
+    });
+
+    async function request(action, options = {}) {
+      if (!GAS_URL || GAS_URL.includes('PASTE_YOUR')) {
+        throw new Error('請先把 Apps Script 的 /exec URL 貼到 index.html 的 GAS_URL');
+      }
+
+      const init = options.method ? {
+        method: options.method,
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: options.body,
+      } : {};
+
+      const url = options.method ? GAS_URL : `${GAS_URL}?action=${encodeURIComponent(action)}&t=${Date.now()}`;
+      const response = await fetch(url, init);
+      const payload = await response.json();
+      if (payload.status !== 'success') throw new Error(payload.message || '讀取失敗');
+      return payload.data || [];
+    }
+
+    async function loadLedger() {
+      $('#ledger-list').className = 'empty';
+      $('#ledger-list').textContent = '正在讀取記帳...';
+      try {
+        state.ledger = (await request('ledger')).map(normalizeLedgerItem);
+        renderLedger();
+      } catch (error) {
+        $('#ledger-list').className = 'empty';
+        $('#ledger-list').textContent = `記帳讀取失敗：${error.message}`;
+      }
+    }
+
+    function renderLedger() {
+      $('#ledger-list').innerHTML = '';
+      $('#ledger-list').className = '';
+      updateLedgerSortButton();
+
+      if (!state.ledger.length) {
+        $('#ledger-list').className = 'empty';
+        $('#ledger-list').textContent = '目前沒有消費記錄。';
+        return;
+      }
+
+      sortedLedger().forEach(item => {
+        const row = document.createElement('article');
+        row.className = 'ledger-item';
+
+        const info = document.createElement('div');
+        const date = document.createElement('div');
+        date.className = 'ledger-date';
+        date.textContent = item.date || '未填日期';
+
+        const name = document.createElement('div');
+        name.className = 'ledger-name';
+        name.textContent = item.item || '未命名';
+        const who = document.createElement('span');
+        who.className = `pill ${personClass(item.who)}`;
+        who.textContent = item.who || '未填';
+        const currency = document.createElement('span');
+        currency.className = 'pill currency';
+        currency.textContent = CURRENCY_LABELS[item.currency] || '未選幣別';
+        name.append(who, currency);
+
+        info.append(date, name);
+        if (item.note) {
+          const note = document.createElement('div');
+          note.className = 'ledger-note';
+          note.textContent = item.note;
+          info.appendChild(note);
+        }
+
+        const side = document.createElement('div');
+        const cost = document.createElement('div');
+        cost.className = 'ledger-cost';
+        cost.textContent = originalAmount(item);
+        const converted = document.createElement('div');
+        converted.className = 'ledger-converted';
+        converted.textContent = `約 ${twd(toTwd(item))}`;
+        const buttons = document.createElement('div');
+        buttons.className = 'icon-buttons';
+        const edit = iconButton('編輯', '✎');
+        edit.addEventListener('click', () => openForm(item));
+        const del = iconButton('刪除', '×');
+        del.addEventListener('click', () => deleteLedger(item.rowIndex));
+        buttons.append(edit, del);
+        side.append(cost, converted, buttons);
+
+        row.append(info, side);
+        $('#ledger-list').appendChild(row);
+      });
+    }
+
+    function sortedLedger() {
+      return [...state.ledger].sort((a, b) => {
+        const direction = state.ledgerSort === 'newest' ? -1 : 1;
+        const aDate = ledgerDateValue(a.date);
+        const bDate = ledgerDateValue(b.date);
+        if (aDate === null && bDate !== null) return 1;
+        if (aDate !== null && bDate === null) return -1;
+        const dateDiff = aDate - bDate;
+        if (dateDiff !== 0) return dateDiff * direction;
+        return (Number(a.rowIndex) - Number(b.rowIndex)) * direction;
+      });
+    }
+
+    function ledgerDateValue(value) {
+      const date = parseDate(value);
+      return date ? date.getTime() : null;
+    }
+
+    function toggleLedgerSort() {
+      state.ledgerSort = state.ledgerSort === 'newest' ? 'oldest' : 'newest';
+      renderLedger();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateLedgerSortButton() {
+      const button = $('#toggle-ledger-sort');
+      const newest = state.ledgerSort === 'newest';
+      button.textContent = newest ? '日期↓' : '日期↑';
+      button.title = newest ? '目前：日期新到舊，點擊改成日期舊到新' : '目前：日期舊到新，點擊改成日期新到舊';
+      button.setAttribute('aria-label', button.title);
+    }
+
+    function iconButton(label, text) {
+      const button = document.createElement('button');
+      button.className = 'icon-button';
+      button.type = 'button';
+      button.title = label;
+      button.setAttribute('aria-label', label);
+      button.textContent = text;
+      return button;
+    }
+
+    function openForm(item = null) {
+      $('#form-title').textContent = item ? '編輯消費' : '新增消費';
+      $('#row-index').value = item ? item.rowIndex : '';
+      $('#date').value = item ? toInputDate(item.date) : today();
+      $('#item').value = item ? item.item : '';
+      $('#who').value = item ? item.who : '';
+      $('#currency').value = item ? item.currency : '';
+      $('#cost').value = item ? item.cost : '';
+      $('#note').value = item ? item.note : '';
+      $('#form-modal').classList.add('active');
+    }
+
+    function closeForm() {
+      $('#form-modal').classList.remove('active');
+    }
+
+    function openDatePicker() {
+      state.calendarMonth = ($('#date').value || today()).slice(0, 7);
+      renderCalendar();
+      $('#date-modal').classList.add('active');
+    }
+
+    function closeDatePicker() {
+      $('#date-modal').classList.remove('active');
+    }
+
+    function renderCalendar() {
+      const selected = $('#date').value;
+      const [year, month] = state.calendarMonth.split('-').map(Number);
+      const firstDay = new Date(year, month - 1, 1);
+      const start = new Date(year, month - 1, 1 - firstDay.getDay());
+
+      $('#calendar-title').textContent = `${year} / ${String(month).padStart(2, '0')}`;
+      $('#calendar-grid').innerHTML = '';
+
+      for (let i = 0; i < 42; i++) {
+        const date = new Date(start);
+        date.setDate(start.getDate() + i);
+        const dateValue = formatInputDate(date);
+        const inMonth = date.getMonth() === month - 1;
+        const button = document.createElement('button');
+        button.className = [
+          'calendar-day',
+          inMonth ? '' : 'muted',
+          dateValue === selected ? 'active' : '',
+        ].filter(Boolean).join(' ');
+        button.type = 'button';
+        button.textContent = String(date.getDate());
+        button.title = ledgerDateLabel(dateValue);
+        button.addEventListener('click', () => selectLedgerDate(dateValue));
+        $('#calendar-grid').appendChild(button);
+      }
+    }
+
+    function shiftCalendarMonth(delta) {
+      const [year, month] = state.calendarMonth.split('-').map(Number);
+      const next = new Date(year, month - 1 + delta, 1);
+      state.calendarMonth = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}`;
+      renderCalendar();
+    }
+
+    function selectLedgerDate(dateValue) {
+      $('#date').value = dateValue;
+      closeDatePicker();
+    }
+
+    function ledgerDateLabel(dateValue) {
+      const label = dayLabel(dateValue);
+      return `${dateValue.replace(/-/g, '/')} ${label.weekday}`;
+    }
+
+    async function submitLedger(event) {
+      event.preventDefault();
+      const button = $('#save-form');
+      button.disabled = true;
+      button.textContent = '儲存中...';
+
+      const rowIndex = $('#row-index').value;
+      const payload = {
+        action: rowIndex ? 'edit' : 'add',
+        rowIndex,
+        date: $('#date').value,
+        item: $('#item').value.trim(),
+        who: $('#who').value,
+        currency: $('#currency').value,
+        cost: Number($('#cost').value) || 0,
+        note: $('#note').value.trim(),
+      };
+
+      try {
+        await request('ledger', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+        closeForm();
+        await loadLedger();
+      } catch (error) {
+        alert(`儲存失敗：${error.message}`);
+      } finally {
+        button.disabled = false;
+        button.textContent = '儲存';
+      }
+    }
+
+    async function deleteLedger(rowIndex) {
+      const item = state.ledger.find(entry => Number(entry.rowIndex) === Number(rowIndex));
+      state.pendingDeleteRow = rowIndex;
+      $('#delete-target').textContent = item ? `${item.date || '未填日期'}｜${item.item || '未命名'}｜${originalAmount(item)}` : '';
+      $('#delete-modal').classList.add('active');
+    }
+
+    function closeDeleteConfirm() {
+      state.pendingDeleteRow = null;
+      $('#delete-modal').classList.remove('active');
+    }
+
+    async function confirmDeleteLedger() {
+      const rowIndex = state.pendingDeleteRow;
+      if (!rowIndex) return;
+      const button = $('#confirm-delete');
+      button.disabled = true;
+      button.textContent = '刪除中...';
+      try {
+        await request('ledger', {
+          method: 'POST',
+          body: JSON.stringify({ action: 'delete', rowIndex }),
+        });
+        closeDeleteConfirm();
+        await loadLedger();
+      } catch (error) {
+        alert(`刪除失敗：${error.message}`);
+      } finally {
+        button.disabled = false;
+        button.textContent = '刪除';
+      }
+    }
+
+    function showStats() {
+      const totals = state.ledger.reduce((acc, item) => {
+        const who = item.who || '未填';
+        acc[who] = (acc[who] || 0) + toTwd(item);
+        return acc;
+      }, {});
+
+      setScore($('#score-gino'), totals.Gino);
+      setScore($('#score-danny'), totals.Danny);
+      $('#stats-modal').classList.add('active');
+      requestAnimationFrame(() => {
+        fitScoreboard();
+        requestAnimationFrame(fitScoreboard);
+      });
+    }
+
+    function dayLabel(dateText) {
+      const date = parseDate(dateText);
+      if (!date) return { weekday: '日期', day: dateText || '--' };
+      const weekdays = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
+      return { weekday: weekdays[date.getDay()], day: String(date.getDate()) };
+    }
+
+    function parseDate(value) {
+      if (!value) return null;
+      const match = String(value).match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
+      if (!match) return null;
+      return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    }
+
+    function toInputDate(value) {
+      const date = parseDate(value);
+      if (!date) return today();
+      return formatInputDate(date);
+    }
+
+    function formatInputDate(date) {
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function normalizeLedgerItem(item) {
+      return {
+        rowIndex: item.rowIndex,
+        date: item.date || '',
+        item: item.item || '',
+        who: item.who || '',
+        currency: normalizeCurrency(item.currency),
+        cost: Number(item.cost) || 0,
+        note: item.note || '',
+      };
+    }
+
+    function normalizeCurrency(value) {
+      const text = String(value || '').trim().toUpperCase();
+      if (text === '泰銖' || text === 'THB' || text === '฿') return 'THB';
+      if (text === '美金' || text === 'USD' || text === 'US$') return 'USD';
+      if (text === '新台幣' || text === '台幣' || text === 'TWD' || text === 'NTD' || text === 'NT$') return 'TWD';
+      return text;
+    }
+
+    function toTwd(item) {
+      return (Number(item.cost) || 0) * (RATES[item.currency] || 0);
+    }
+
+    function originalAmount(item) {
+      return formatCurrency(item.cost, item.currency);
+    }
+
+    function formatCurrency(value, currency) {
+      const prefix = CURRENCY_PREFIX[currency] || '';
+      return `${prefix}${(Number(value) || 0).toLocaleString('zh-TW', { maximumFractionDigits: 2 })}`;
+    }
+
+    function twd(value) {
+      return `NT$${Math.round(Number(value) || 0).toLocaleString('zh-TW')}`;
+    }
+
+    function scoreNumber(value) {
+      return Math.round(Number(value) || 0).toLocaleString('zh-TW');
+    }
+
+    function personClass(value) {
+      const name = String(value || '').trim().toLowerCase();
+      if (name === 'gino') return 'gino';
+      if (name === 'danny') return 'danny';
+      return '';
+    }
+
+    function setScore(element, value) {
+      element.textContent = scoreNumber(value);
+      element.style.removeProperty('--score-size');
+    }
+
+    function fitScoreboard() {
+      const values = [...document.querySelectorAll('.score-value')];
+      if (!values.length) return;
+
+      values.forEach(element => element.style.removeProperty('--score-size'));
+
+      let size = Math.min(...values.map(element => Number.parseFloat(getComputedStyle(element).fontSize)));
+      const minSize = 22;
+
+      while (values.some(element => element.scrollWidth > element.clientWidth) && size > minSize) {
+        size -= 1;
+        values.forEach(element => element.style.setProperty('--score-size', `${size}px`));
+      }
+    }
+  </script>
+</body>
+</html>
